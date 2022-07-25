@@ -1,8 +1,8 @@
 package org.breskul.bobo.context;
 
 import lombok.SneakyThrows;
-import org.breskul.bobo.annotations.BoboBean;
-import org.breskul.bobo.annotations.BoboConfiguration;
+import org.breskul.bobo.annotation.BoboBean;
+import org.breskul.bobo.annotation.BoboConfiguration;
 import org.reflections.Reflections;
 
 import java.lang.reflect.Method;
