@@ -1,7 +1,7 @@
 package org.breskul.test.teststructure;
 
-import org.breskul.bobo.annotations.BoboBean;
-import org.breskul.bobo.annotations.BoboConfiguration;
+import org.breskul.bobo.annotation.BoboBean;
+import org.breskul.bobo.annotation.BoboConfiguration;
 
 @BoboConfiguration
 public class Configuration {
