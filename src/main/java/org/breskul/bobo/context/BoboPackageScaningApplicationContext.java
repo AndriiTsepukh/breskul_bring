@@ -14,8 +14,8 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public class BoboPackageScaningApplicationContext implements BoboApplicationContext{
-    Map<String, Object> nameToBeanMap = new HashMap<>();
-    List<PreBean> preBeanList = new LinkedList<>();
+    private Map<String, Object> nameToBeanMap = new HashMap<>();
+    private List<PreBean> preBeanList = new LinkedList<>();
 
     @SneakyThrows
     public BoboPackageScaningApplicationContext(String packageName) {

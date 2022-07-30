@@ -1,8 +1,7 @@
 package org.breskul.test;
 
 import org.breskul.bobo.context.BoboPackageScaningApplicationContext;
-import org.breskul.test.teststructure.SecondBean;
-import org.breskul.test.teststructure.TestBean;
+import org.breskul.test.teststructure.*;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
@@ -36,5 +35,30 @@ public class BringTests {
         var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
         SecondBean bean = context.getBean(SecondBean.class);
         assertNotNull(bean);
+    }
+
+    @Test
+    public void createBeanByBoboComponentAnnotation() {
+        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+        AutowiredFieldClass bean = context.getBean(AutowiredFieldClass.class);
+        assertNotNull(bean);
+    }
+
+    @Test
+    public void autowireAndGetBean() {
+        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+        AutowiredFieldClass bean = context.getBean(AutowiredFieldClass.class);
+        assertNotNull(bean.getTestBean());
+    }
+
+    @Test
+    public void autowireLoopedBeans() {
+        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+        AutowiredLoopedFieldClass bean = context.getBean(AutowiredLoopedFieldClass.class);
+        assertNotNull(bean);
+        EmbeddedClass embeddedClass = bean.getEmbeddedClass();
+        assertNotNull(embeddedClass);
+        AutowiredLoopedFieldClass autowiredLoopedFieldClass = embeddedClass.getAutowiredLoopedFieldClass();
+        assertNotNull(autowiredLoopedFieldClass);
     }
 }
