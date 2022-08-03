@@ -13,7 +13,7 @@ public class BoboPackageScaningApplicationContext implements BoboApplicationCont
     Map<String, Object> nameToBeanMap = new HashMap<>();
 
     @SneakyThrows
-    public BoboPackageScaningApplicationContext(String packageName) {
+    public BoboPackageScaningApplicationContext(String packageName, String... args) {
         var reflections = new Reflections(packageName);
         var configClasses  = reflections.getTypesAnnotatedWith(BoboConfiguration.class);
         for (Class<?> configClass : configClasses) {
@@ -30,6 +30,7 @@ public class BoboPackageScaningApplicationContext implements BoboApplicationCont
                 }
             }
         }
+        PropertyResolver.of(args).scan(nameToBeanMap);
     }
 
     @Override
