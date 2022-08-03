@@ -3,8 +3,7 @@ package org.breskul.test;
 import org.breskul.bobo.context.BoboPackageScaningApplicationContext;
 import org.breskul.bobo.exception.PropertyNotFoundException;
 import org.breskul.bobo.exception.PropertyValidationException;
-import org.breskul.test.teststructure.SecondBean;
-import org.breskul.test.teststructure.TestBean;
+import org.breskul.test.teststructure.*;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
