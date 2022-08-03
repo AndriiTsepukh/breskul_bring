@@ -43,6 +43,31 @@ public class BringTests {
     }
 
     @Test
+    public void createBeanByBoboComponentAnnotation() {
+        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+        AutowiredFieldClass bean = context.getBean(AutowiredFieldClass.class);
+        assertNotNull(bean);
+    }
+
+    @Test
+    public void autowireAndGetBean() {
+        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+        AutowiredFieldClass bean = context.getBean(AutowiredFieldClass.class);
+        assertNotNull(bean.getTestBean());
+    }
+
+    @Test
+    public void autowireLoopedBeans() {
+        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+        AutowiredLoopedFieldClass bean = context.getBean(AutowiredLoopedFieldClass.class);
+        assertNotNull(bean);
+        EmbeddedClass embeddedClass = bean.getEmbeddedClass();
+        assertNotNull(embeddedClass);
+        AutowiredLoopedFieldClass autowiredLoopedFieldClass = embeddedClass.getAutowiredLoopedFieldClass();
+        assertNotNull(autowiredLoopedFieldClass);
+    }
+
+    @Test
     public void shouldInitializePropertiesWithDefaultProfile() {
         var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
         TestBean testBean = context.getBean(TestBean.class);
