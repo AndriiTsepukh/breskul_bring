@@ -1,13 +1,13 @@
 package org.breskul.test;
 
 import org.breskul.bobo.context.BoboPackageScaningApplicationContext;
+import org.breskul.bobo.exeptions.NoSuchBoboBeanException;
 import org.breskul.test.teststructure.*;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 
 public class BringTests {
-
 
     @Test
     public void getBeanByNameTest() {
@@ -60,5 +60,23 @@ public class BringTests {
         assertNotNull(embeddedClass);
         AutowiredLoopedFieldClass autowiredLoopedFieldClass = embeddedClass.getAutowiredLoopedFieldClass();
         assertNotNull(autowiredLoopedFieldClass);
+    }
+
+    @Test(expected = NoSuchBoboBeanException.class)
+    public void testNotFoundBeaByName() {
+        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+        context.getBean("someBean");
+    }
+
+    @Test(expected = NoSuchBoboBeanException.class)
+    public void notFoundBeaByClassTest() {
+        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+        context.getBean(String.class);
+    }
+
+    @Test(expected = NoSuchBoboBeanException.class)
+    public void whenExceptionThrown_thenExpectationSatisfied() {
+        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+        context.getBean("someBean");
     }
 }
