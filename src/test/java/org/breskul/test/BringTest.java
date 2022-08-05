@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BringTest {
 
-
     @Test
     public void getBeanByNameTest() {
         var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
@@ -68,7 +67,7 @@ public class BringTest {
 
     @Test
     public void shouldInitializePropertiesWithDefaultProfile() {
-        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
         TestBean testBean = context.getBean(TestBean.class);
         String expectedName = "Breskul";
         byte expectedByteTest = 25;
@@ -100,7 +99,7 @@ public class BringTest {
 
     @Test
     public void shouldInitializePropertiesWithActiveProfile() {
-        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName(), "ACTIVE_PROFILE=dev");
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName(), "ACTIVE_PROFILE=dev");
         TestBean testBean = context.getBean(TestBean.class);
         String expectedName = "BreskulDevProfile";
         byte expectedByteTest = 25;
@@ -133,12 +132,12 @@ public class BringTest {
     @Test
     public void shouldThrowPropertyValidationExceptionWhenTypeDoesNotMatch() {
         assertThrows(PropertyValidationException.class,
-                () -> new BoboPackageScaningApplicationContext(BringTests.class.getPackageName(), "ACTIVE_PROFILE=cast-exception"));
+                () -> new BoboPackageScaningApplicationContext(BringTest.class.getPackageName(), "ACTIVE_PROFILE=cast-exception"));
     }
 
     @Test
     public void shouldThrowPropertyNotFoundException() {
         assertThrows(PropertyNotFoundException.class,
-                () -> new BoboPackageScaningApplicationContext(BringTests.class.getPackageName(), "ACTIVE_PROFILE=not-found-exception"));
+                () -> new BoboPackageScaningApplicationContext(BringTest.class.getPackageName(), "ACTIVE_PROFILE=not-found-exception"));
     }
 }
