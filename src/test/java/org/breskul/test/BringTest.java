@@ -10,54 +10,53 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class BringTests {
-
+public class BringTest {
 
     @Test
     public void getBeanByNameTest() {
-        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
         var bean = context.getBean("testBean");
         assertNotNull(bean);
     }
 
     @Test
-    public void getBeanByType() {
-        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+    public void getBeanByTypeTest() {
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
         var bean = context.getBean(TestBean.class);
         assertNotNull(bean);
     }
 
     @Test
-    public void getBeanByNameAndType() {
-        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+    public void getBeanByNameAndTypeTest() {
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
         TestBean bean = context.getBean(TestBean.class, "testBean");
         assertNotNull(bean);
     }
 
     @Test
-    public void getSecondBean() {
-        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+    public void getSecondBeanTest() {
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
         SecondBean bean = context.getBean(SecondBean.class);
         assertNotNull(bean);
     }
 
     @Test
-    public void createBeanByBoboComponentAnnotation() {
-        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+    public void createBeanByBoboComponentAnnotationTest() {
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
         AutowiredFieldClass bean = context.getBean(AutowiredFieldClass.class);
         assertNotNull(bean);
     }
 
     @Test
-    public void autowireAndGetBean() {
-        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+    public void autowireAndGetBeanTest() {
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
         AutowiredFieldClass bean = context.getBean(AutowiredFieldClass.class);
         assertNotNull(bean.getTestBean());
     }
 
     @Test
-    public void autowireLoopedBeans() {
-        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+    public void autowireLoopedBeansTest() {
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
         AutowiredLoopedFieldClass bean = context.getBean(AutowiredLoopedFieldClass.class);
         assertNotNull(bean);
         EmbeddedClass embeddedClass = bean.getEmbeddedClass();
@@ -68,7 +67,7 @@ public class BringTests {
 
     @Test
     public void shouldInitializePropertiesWithDefaultProfile() {
-        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
         TestBean testBean = context.getBean(TestBean.class);
         String expectedName = "Breskul";
         byte expectedByteTest = 25;
@@ -100,7 +99,7 @@ public class BringTests {
 
     @Test
     public void shouldInitializePropertiesWithActiveProfile() {
-        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName(), "ACTIVE_PROFILE=dev");
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName(), "ACTIVE_PROFILE=dev");
         TestBean testBean = context.getBean(TestBean.class);
         String expectedName = "BreskulDevProfile";
         byte expectedByteTest = 25;
@@ -133,12 +132,12 @@ public class BringTests {
     @Test
     public void shouldThrowPropertyValidationExceptionWhenTypeDoesNotMatch() {
         assertThrows(PropertyValidationException.class,
-                () -> new BoboPackageScaningApplicationContext(BringTests.class.getPackageName(), "ACTIVE_PROFILE=cast-exception"));
+                () -> new BoboPackageScaningApplicationContext(BringTest.class.getPackageName(), "ACTIVE_PROFILE=cast-exception"));
     }
 
     @Test
     public void shouldThrowPropertyNotFoundException() {
         assertThrows(PropertyNotFoundException.class,
-                () -> new BoboPackageScaningApplicationContext(BringTests.class.getPackageName(), "ACTIVE_PROFILE=not-found-exception"));
+                () -> new BoboPackageScaningApplicationContext(BringTest.class.getPackageName(), "ACTIVE_PROFILE=not-found-exception"));
     }
 }

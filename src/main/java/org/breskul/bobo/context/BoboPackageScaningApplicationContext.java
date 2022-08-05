@@ -1,12 +1,10 @@
 package org.breskul.bobo.context;
 
 import lombok.SneakyThrows;
-import org.breskul.bobo.annotation.BoboAutowired;
-import org.breskul.bobo.annotation.BoboBean;
-import org.breskul.bobo.annotation.BoboComponent;
-import org.breskul.bobo.annotation.BoboConfiguration;
+import org.breskul.bobo.annotation.*;
 import org.breskul.bobo.prebean.PreBean;
 import org.reflections.Reflections;
+import org.reflections.util.ConfigurationBuilder;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -20,6 +18,20 @@ public class BoboPackageScaningApplicationContext implements BoboApplicationCont
     @SneakyThrows
     public BoboPackageScaningApplicationContext(String packageName, String... args) {
         var reflections = new Reflections(packageName);
+
+        List<String> additionalPackages = new ArrayList<>();
+        additionalPackages.add(packageName);
+        var componentScanAnnotatedClasses = reflections.getTypesAnnotatedWith(BoboComponentScan.class);
+        for (var compScanClass : componentScanAnnotatedClasses) {
+            var packages = compScanClass.getAnnotation(BoboComponentScan.class).basePackages();
+            additionalPackages.addAll(Arrays.stream(packages).toList());
+        }
+
+        var configurationBuilder = new ConfigurationBuilder();
+        configurationBuilder.forPackages(additionalPackages.toArray(new String[0]));
+
+        reflections = new Reflections(configurationBuilder);
+
         var configClasses  = reflections.getTypesAnnotatedWith(BoboConfiguration.class);
         for (Class<?> configClass : configClasses) {
             var methods = configClass.getMethods();
@@ -55,7 +67,9 @@ public class BoboPackageScaningApplicationContext implements BoboApplicationCont
                     iterator.remove();
                 } else {
                     Class<?> type = preBean.getObj().getClass();
-                    for (Field field : type.getDeclaredFields()) {
+                    var declaredFields = type.getDeclaredFields();
+                    if (declaredFields.length == 0) preBean.setCooked(true);
+                    for (Field field : declaredFields) {
                         int autowiredCnt = 0;
                         BoboAutowired autowired = field.getAnnotation(BoboAutowired.class);
                         if (autowired != null) {
