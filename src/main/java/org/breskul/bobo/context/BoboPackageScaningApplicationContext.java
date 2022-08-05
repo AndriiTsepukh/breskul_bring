@@ -18,7 +18,7 @@ public class BoboPackageScaningApplicationContext implements BoboApplicationCont
     private List<PreBean> preBeanList = new LinkedList<>();
 
     @SneakyThrows
-    public BoboPackageScaningApplicationContext(String packageName) {
+    public BoboPackageScaningApplicationContext(String packageName, String... args) {
         var reflections = new Reflections(packageName);
         var configClasses  = reflections.getTypesAnnotatedWith(BoboConfiguration.class);
         for (Class<?> configClass : configClasses) {
@@ -35,6 +35,9 @@ public class BoboPackageScaningApplicationContext implements BoboApplicationCont
                 }
             }
         }
+
+        PropertyResolver.of(args).scan(nameToBeanMap);
+
         for (Class<?> componentType : reflections.getTypesAnnotatedWith(BoboComponent.class)) {
             Constructor<?> constructor = componentType.getConstructor();
             Object newInstance = constructor.newInstance();
