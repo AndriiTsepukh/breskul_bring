@@ -5,6 +5,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Class level annotation to specify the names of additional packages which need to be scanned as well.
+ *
+ * @basePackages optional parameter where we can specify additional package names to scan.
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface BoboComponentScan {
