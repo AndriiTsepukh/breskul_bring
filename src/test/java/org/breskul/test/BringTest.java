@@ -6,54 +6,54 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 
-public class BringTests {
+public class BringTest {
 
 
     @Test
     public void getBeanByNameTest() {
-        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
         var bean = context.getBean("testBean");
         assertNotNull(bean);
     }
 
     @Test
-    public void getBeanByType() {
-        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+    public void getBeanByTypeTest() {
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
         var bean = context.getBean(TestBean.class);
         assertNotNull(bean);
     }
 
     @Test
-    public void getBeanByNameAndType() {
-        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+    public void getBeanByNameAndTypeTest() {
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
         TestBean bean = context.getBean(TestBean.class, "testBean");
         assertNotNull(bean);
     }
 
     @Test
-    public void getSecondBean() {
-        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+    public void getSecondBeanTest() {
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
         SecondBean bean = context.getBean(SecondBean.class);
         assertNotNull(bean);
     }
 
     @Test
-    public void createBeanByBoboComponentAnnotation() {
-        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+    public void createBeanByBoboComponentAnnotationTest() {
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
         AutowiredFieldClass bean = context.getBean(AutowiredFieldClass.class);
         assertNotNull(bean);
     }
 
     @Test
-    public void autowireAndGetBean() {
-        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+    public void autowireAndGetBeanTest() {
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
         AutowiredFieldClass bean = context.getBean(AutowiredFieldClass.class);
         assertNotNull(bean.getTestBean());
     }
 
     @Test
-    public void autowireLoopedBeans() {
-        var context = new BoboPackageScaningApplicationContext(BringTests.class.getPackageName());
+    public void autowireLoopedBeansTest() {
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
         AutowiredLoopedFieldClass bean = context.getBean(AutowiredLoopedFieldClass.class);
         assertNotNull(bean);
         EmbeddedClass embeddedClass = bean.getEmbeddedClass();
