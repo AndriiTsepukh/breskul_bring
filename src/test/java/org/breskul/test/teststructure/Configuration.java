@@ -16,4 +16,9 @@ public class Configuration {
         return new SecondBean();
     }
 
+    @BoboBean
+    public TestExceptionBean testExceptionBean(){
+        return new TestExceptionBean();
+    }
+
 }
