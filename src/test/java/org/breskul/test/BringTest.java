@@ -3,6 +3,7 @@ package org.breskul.test;
 import org.breskul.bobo.context.BoboPackageScaningApplicationContext;
 import org.breskul.bobo.exception.PropertyNotFoundException;
 import org.breskul.bobo.exception.PropertyValidationException;
+import org.breskul.bobo.exeptions.NoSuchBoboBeanException;
 import org.breskul.test.teststructure.*;
 import org.junit.Test;
 
@@ -66,7 +67,7 @@ public class BringTest {
     }
 
     @Test
-    public void shouldInitializePropertiesWithDefaultProfile() {
+    public void shouldInitializePropertiesWithDefaultProfileTest() {
         var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
         TestBean testBean = context.getBean(TestBean.class);
         String expectedName = "Breskul";
@@ -98,7 +99,7 @@ public class BringTest {
     }
 
     @Test
-    public void shouldInitializePropertiesWithActiveProfile() {
+    public void shouldInitializePropertiesWithActiveProfileTest() {
         var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName(), "ACTIVE_PROFILE=dev");
         TestBean testBean = context.getBean(TestBean.class);
         String expectedName = "BreskulDevProfile";
@@ -130,14 +131,32 @@ public class BringTest {
     }
 
     @Test
-    public void shouldThrowPropertyValidationExceptionWhenTypeDoesNotMatch() {
+    public void shouldThrowPropertyValidationExceptionWhenTypeDoesNotMatchTest() {
         assertThrows(PropertyValidationException.class,
                 () -> new BoboPackageScaningApplicationContext(BringTest.class.getPackageName(), "ACTIVE_PROFILE=cast-exception"));
     }
 
     @Test
-    public void shouldThrowPropertyNotFoundException() {
+    public void shouldThrowPropertyNotFoundExceptionTest() {
         assertThrows(PropertyNotFoundException.class,
                 () -> new BoboPackageScaningApplicationContext(BringTest.class.getPackageName(), "ACTIVE_PROFILE=not-found-exception"));
+    }
+
+    @Test(expected = NoSuchBoboBeanException.class)
+    public void testNotFoundBeaByNameTest() {
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
+        context.getBean("someBean");
+    }
+
+    @Test(expected = NoSuchBoboBeanException.class)
+    public void notFoundBeaByClassTest() {
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
+        context.getBean(String.class);
+    }
+
+    @Test(expected = NoSuchBoboBeanException.class)
+    public void whenExceptionThrown_thenExpectationSatisfiedTest() {
+        var context = new BoboPackageScaningApplicationContext(BringTest.class.getPackageName());
+        context.getBean("someBean");
     }
 }
