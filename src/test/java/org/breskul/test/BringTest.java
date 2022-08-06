@@ -131,12 +131,6 @@ public class BringTest {
     }
 
     @Test
-    public void shouldThrowPropertyValidationExceptionWhenTypeDoesNotMatchTest() {
-        assertThrows(PropertyValidationException.class,
-                () -> new BoboPackageScaningApplicationContext(BringTest.class.getPackageName(), "ACTIVE_PROFILE=cast-exception"));
-    }
-
-    @Test
     public void shouldThrowPropertyNotFoundExceptionTest() {
         assertThrows(PropertyNotFoundException.class,
                 () -> new BoboPackageScaningApplicationContext(BringTest.class.getPackageName(), "ACTIVE_PROFILE=not-found-exception"));
